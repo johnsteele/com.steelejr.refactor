@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="com.steelejr.refactor.category1"
+            class="com.steelejr.refactor.view.RefactorExplorer"
+            id="com.steelejr.refactor.refactorExplorer"
+            name="RefactorExplorer"
+            restorable="true">
+      </view>
+      <category
+            id="com.steelejr.refactor.category1"
+            name="Refactor">
+      </category>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            description="Searches for dead java files."
+            id="com.steelejr.refactor.searchUnusedCodeCommand"
+            name="Scan unused">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            allPopups="false"
+            locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
+         <command
+               commandId="com.steelejr.refactor.searchUnusedCodeCommand"
+               label="Search Unused"
+               style="push">
+            <visibleWhen
+                  checkEnabled="false">
+               <with
+                     variable="activeMenuSelection">
+                  <iterate
+                        ifEmpty="false"
+                        operator="or">
+                     <adapt
+                           type="org.eclipse.core.resources.IProject">
+                     </adapt>
+                  </iterate>
+               </with>
+            </visibleWhen>
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="com.steelejr.refactor.handler.SearchUnusedHandler"
+            commandId="com.steelejr.refactor.searchUnusedCodeCommand">
+      </handler>
+   </extension>
+
+</plugin>
